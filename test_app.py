@@ -9,7 +9,7 @@ client = TestClient(app)
 def test_home_page_loads():
     response = client.get("/")
     assert response.status_code == 200
-    assert "FYP-I" not in response.text
+    assert "Rentify" in response.text
 
 
 def test_login_page_loads():
