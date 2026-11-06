@@ -1,5 +1,5 @@
 # Rentify — FYP-I Milestone
-Ammar Khawaja 2212262
+Ammar Khawaja 2112262
 Haider Mustafa 2212363
 Rentify is a centralized rental marketplace developed for the FYP-I milestone.
 This copy intentionally contains only the FYP-I scope:
