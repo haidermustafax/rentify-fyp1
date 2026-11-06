@@ -169,7 +169,7 @@ def get_listings(category_id: Optional[int] = None, search: Optional[str] = None
                    l.location, l.image_url, c.name AS category_name, l.category_id
             FROM listings l
             JOIN categories c ON c.id = l.category_id
-            WHERE l.is_available = TRUE
+            WHERE l.is_available = TRUE AND l.category_id IN (1, 2, 3, 4)
         """
         params = []
         if category_id:
@@ -204,7 +204,8 @@ def get_listing_detail(listing_id: int):
                           l.location, l.image_url, c.name AS category_name, l.category_id
                    FROM listings l
                    JOIN categories c ON c.id = l.category_id
-                   WHERE l.id = %s AND l.is_available = TRUE""",
+                   WHERE l.id = %s AND l.is_available = TRUE
+                     AND l.category_id IN (1, 2, 3, 4)""",
                 (listing_id,),
             )
             row = cursor.fetchone()

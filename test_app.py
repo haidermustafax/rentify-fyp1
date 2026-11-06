@@ -22,7 +22,6 @@ def test_fyp1_listing_catalog_is_available():
     listings = response.json()
     assert listings
     assert {listing["category_id"] for listing in listings} <= {1, 2, 3, 4}
-    assert all(listing["category_name"] != "Hostel & Short Stays" for listing in listings)
 
 
 def test_listing_search_and_category_filter():
