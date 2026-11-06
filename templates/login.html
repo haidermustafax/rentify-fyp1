@@ -46,29 +46,9 @@
                         <label class="form-label fw-bold small text-muted">Password</label>
                         <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
                     </div>
-                    <div class="text-end mb-3">
-                        <button type="button" class="btn btn-link btn-sm text-decoration-none p-0" onclick="document.getElementById('login-pane').classList.add('d-none'); document.getElementById('forgot-container').classList.remove('d-none')">Forgot password?</button>
-                    </div>
                     <button type="submit" class="btn btn-brand w-100 mb-3">Secure Sign In</button>
                 </form>
             </div>
-	    <div id="forgot-container" class="d-none">
-    		<h5 class="fw-bold mb-2">Reset Password</h5>
-    		<p id="forgot-message" class="text-muted small mb-4">Enter your email to receive a secure recovery code.</p>
-		 <form id="form-forgot-request">
-		        <input type="email" id="forgot-email" class="form-control mb-4" placeholder="name@example.com" required>
-			 <button type="submit" class="btn btn-primary w-100 mb-2">Send Recovery Code</button>
-			<button type="button" class="btn btn-light w-100 fw-bold" onclick="document.getElementById('forgot-container').classList.add('d-none'); document.getElementById('login-pane').classList.remove('d-none');">Back to Login</button>
-		 </form>
-        <form id="form-reset-password" class="d-none">
-            <label for="reset-otp-code" class="form-label fw-bold small text-muted">6-digit recovery code</label>
-            <input type="text" id="reset-otp-code" class="form-control mb-3" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
-            <label for="reset-new-password" class="form-label fw-bold small text-muted">New password</label>
-            <input type="password" id="reset-new-password" class="form-control mb-3" minlength="6" required>
-            <button type="submit" class="btn btn-brand w-100 mb-2">Reset password</button>
-            <button type="button" class="btn btn-light w-100 fw-bold" onclick="returnToAuth()">Back to Sign In</button>
-        </form>
-	   </div>
 
             <!-- SIGN UP FORM -->
             <div class="tab-pane fade" id="register-pane">
@@ -98,6 +78,7 @@
                     <button type="button" class="btn btn-light w-100 fw-bold" onclick="returnToAuth()">Back</button>
                 </form>
             </div>
+            <p id="auth-message" class="small mt-3" aria-live="polite"></p>
         </div>
     </div>
 </div>

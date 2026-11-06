@@ -70,12 +70,12 @@ def get_current_user(
         with conn.cursor() as cursor:
             if str(sub).isdigit():
                 cursor.execute(
-                    "SELECT id, full_name, email, role, wallet_balance, is_verified, two_factor_enabled FROM users WHERE id = %s",
+                    "SELECT id, full_name, email, role, is_verified FROM users WHERE id = %s",
                     (int(sub),)
                 )
             else:
                 cursor.execute(
-                    "SELECT id, full_name, email, role, wallet_balance, is_verified, two_factor_enabled FROM users WHERE email = %s",
+                    "SELECT id, full_name, email, role, is_verified FROM users WHERE email = %s",
                     (str(sub),)
                 )
 
@@ -83,13 +83,6 @@ def get_current_user(
             if user is None:
                 raise credentials_exception
 
-            if isinstance(user, dict):
-                user["wallet_balance"] = float(user.get("wallet_balance", 0.0))
             return user
     finally:
         conn.close()
-
-def require_admin(current_user: dict = Depends(get_current_user)):
-    if current_user.get("role") != "admin":
-        raise HTTPException(status_code=403, detail="Admin privileges required")
-    return current_user
