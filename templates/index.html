@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentify | Premium Rental Marketplace</title>
+    <meta name="description" content="Rentify FYP-I marketplace for furniture, electronics, cars, and events.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-box-seam-fill me-2"></i>Rentify
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/">Marketplace</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories">Categories</a></li>
+                </ul>
+
+                <div id="auth-btn-group" class="d-flex gap-2">
+                    <a href="/login" class="btn btn-primary btn-pill px-4">Sign In</a>
+                </div>
+
+                <div id="user-profile-group" class="d-none d-flex align-items-center gap-3">
+                    <a href="/profile" class="btn btn-dark btn-pill px-3"><i class="bi bi-person-circle me-2"></i><span id="nav-user-name">Account</span></a>
+                    <button class="btn btn-outline-light btn-pill px-3" onclick="logout()"><i class="bi bi-power"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-banner">
+        <div class="hero-glow-1"></div>
+        <div class="hero-glow-2"></div>
+        <div class="container position-relative">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7 text-white">
+                    <div class="mb-3 d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill border border-white border-opacity-25 bg-white bg-opacity-10">
+                        <span class="ai-badge rounded-pill px-2 py-1">AI-powered rental marketplace</span>
+                    </div>
+                    <h1 class="display-4 fw-bolder mb-3">Rent smarter. Live better.</h1>
+                    <p class="lead mb-4 text-white-50">
+                        Discover furniture, electronics, vehicles, and event rentals in one marketplace.
+                    </p>
+
+                    <div class="search-shell">
+                        <input id="search-input" type="text" class="form-control" placeholder="Search for PS5, couch, SUV, projector..." onkeyup="if(event.key==='Enter') handleSearch()">
+                        <button class="btn btn-primary" onclick="handleSearch()">Search</button>
+                    </div>
+
+                    <div class="hero-meta d-flex flex-wrap gap-3 mt-4">
+                        <span><i class="bi bi-grid-3x3-gap-fill me-2"></i>Five rental categories</span>
+                        <span><i class="bi bi-calendar-check me-2"></i>Choose your rental dates</span>
+                        <span><i class="bi bi-search me-2"></i>Search and filter listings</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="feature-panel">
+                        <div class="mini-stat-row">
+                            <div>
+                                <small>Live inventory</small>
+                                <strong id="inventory-count">Loading…</strong>
+                            </div>
+                            <div>
+                                <small>Browse across</small>
+                                <strong>5 rental categories</strong>
+                            </div>
+                        </div>
+
+                        <div class="feature-card feature-card-main">
+                            <div class="feature-badge">Featured today</div>
+                            <a href="#marketplace" aria-label="Browse available rentals"><img src="/static/images/cars/Toyota_Grande_2025.jpg" alt="Browse available rentals"></a>
+                            <div class="feature-info">
+                                <div>
+                                    <span>Start exploring</span>
+                                    <h4>Rentals for every plan</h4>
+                                </div>
+                                <strong>Browse inventory <i class="bi bi-arrow-right"></i></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <section id="categories" class="mb-5">
+            <div class="section-heading mb-4">
+                <div>
+                    <span class="eyebrow">Browse categories</span>
+                    <h2>Find the perfect rental</h2>
+                </div>
+            </div>
+            <div class="category-grid">
+                <button class="category-chip active" onclick="loadListings('')">All</button>
+                <button class="category-chip" onclick="loadListings(1)">Furniture</button>
+                <button class="category-chip" onclick="loadListings(2)">Electronics</button>
+                <button class="category-chip" onclick="loadListings(3)">Cars</button>
+                <button class="category-chip" onclick="loadListings(4)">Events</button>
+            </div>
+        </section>
+
+        <section id="marketplace" class="marketplace-wrap mb-5">
+            <div class="section-heading mb-4">
+                <div>
+                    <span class="eyebrow">Marketplace</span>
+                    <h2>Full listings</h2>
+                </div>
+                <div class="d-flex gap-2"><span class="chip-soft"><span id="catalog-count">0</span> listings</span><span class="chip-soft">FYP-I catalog</span></div>
+            </div>
+            <div id="listings-grid" class="listings-grid"></div>
+        </section>
+
+    </main>
+
+    <div class="modal fade" id="quickViewModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-glass">
+          <div class="modal-header border-0 pb-0">
+            <span id="qv-category" class="badge-soft">Category</span>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <img id="qv-image" src="/static/images/default.jpg" class="img-fluid modal-image" onerror="this.src='/static/images/default.jpg'" alt="listing image">
+                </div>
+                <div class="col-md-6">
+                    <h3 id="qv-title" class="modal-title">Title</h3>
+                    <p id="qv-desc" class="modal-description">Description</p>
+
+                    <div class="price-box">
+                        <div class="d-flex justify-content-between"><span>Daily rate</span><strong id="qv-price">Rs. 0</strong></div>
+                        <div class="d-flex justify-content-between"><span>Security deposit</span><strong id="qv-deposit" class="text-success">Rs. 0</strong></div>
+                    </div>
+
+                    <a id="qv-details-link" class="btn btn-primary w-100 mt-4" href="#">View full listing details</a>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/app.js?v=115"></script>
+</body>
+</html>

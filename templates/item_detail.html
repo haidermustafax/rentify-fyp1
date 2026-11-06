@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentify - Item Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/css/style.css?v=43">
+</head>
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="/"><i class="bi bi-box-seam me-2"></i>Rentify</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house me-1"></i>Home Marketplace</a></li>
+            </ul>
+            <div id="auth-btn-group" class="d-flex gap-2">
+                <a href="/login" class="btn btn-outline-light btn-sm fw-bold">Sign In</a>
+            </div>
+            <div id="user-profile-group" class="d-flex align-items-center gap-3 d-none">
+                <a href="/profile" class="btn btn-outline-light btn-sm fw-bold"><i class="bi bi-person-circle me-1"></i><span id="nav-user-name">Account</span></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="container my-5">
+    <a href="/" class="text-decoration-none text-muted mb-4 d-inline-block"><i class="bi bi-arrow-left me-1"></i> Back to Marketplace</a>
+    
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+        <div class="row g-0">
+            <!-- Item Image -->
+            <div class="col-md-6 bg-light d-flex align-items-center justify-content-center p-3">
+                <img id="item-image" src="/static/images/default.jpg" class="img-fluid rounded-3 shadow-sm" style="max-height: 420px; object-fit: cover; width: 100%;" onerror="this.src='/static/images/default.jpg'">
+            </div>
+            
+            <!-- Listing Details Panel -->
+            <div class="col-md-6 p-4 p-lg-5 d-flex flex-column">
+                <span id="item-category" class="badge bg-primary-subtle text-primary border border-primary-subtle mb-2 align-self-start text-uppercase fw-bold">Category</span>
+                <h2 id="item-title" class="fw-bold text-dark mb-3">Item Title Loading...</h2>
+                
+                <p id="item-desc" class="text-muted leading-relaxed mb-4">Fetching details...</p>
+                
+                <div class="p-3 bg-light rounded-3 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted small fw-bold">Daily Rental Rate:</span>
+                        <span id="item-price" class="fs-4 fw-bold text-primary">Rs. 0</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted small fw-bold">Refundable Deposit:</span>
+                        <span id="item-deposit" class="fw-bold text-secondary">Rs. 0</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted small fw-bold">Item Location:</span>
+                        <span id="item-location" class="fw-semibold text-dark"><i class="bi bi-geo-alt text-danger me-1"></i>Karachi</span>
+                    </div>
+                </div>
+
+                <div class="mt-auto border-top pt-4">
+                    <p class="small text-muted mb-0"><i class="bi bi-info-circle me-2"></i>Booking and payment workflows are planned for FYP-II.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/app.js?v=115"></script>
+</body>
+</html>
