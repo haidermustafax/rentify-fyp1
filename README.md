@@ -6,6 +6,7 @@ This copy intentionally contains only the FYP-I scope:
 - Requirements and API foundation
 - MySQL database schema and seed data
 - User registration, email verification, login, and JWT authentication
+- Email-based two-step verification after password login
 - Home/furniture, electronics, car-rental, and event-rental categories
 - Listing details, category filtering, text search, and a responsive frontend
 - FastAPI REST endpoints with Swagger/OpenAPI documentation

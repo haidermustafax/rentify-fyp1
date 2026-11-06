@@ -147,10 +147,47 @@ def login(req: LoginRequest):
                 raise HTTPException(status_code=400, detail="Invalid email or password.")
             if not user["is_verified"]:
                 raise HTTPException(status_code=403, detail="Verify your email before signing in.")
+            otp_code = generate_otp()
+            expires_at = datetime.now(timezone.utc) + timedelta(minutes=10)
+            cursor.execute(
+                "UPDATE users SET otp_code = %s, otp_expires_at = %s WHERE email = %s",
+                (otp_code, expires_at, user["email"]),
+            )
+            send_otp_email(user["email"], otp_code, "Login Verification")
+            db.commit()
             return {
-                "access_token": create_access_token({"sub": user["email"]}),
-                "token_type": "bearer",
+                "requires_2fa": True,
+                "email": user["email"],
+                "message": "A login verification code was sent to your email.",
             }
+    finally:
+        db.close()
+
+
+@app.post("/api/auth/verify-login-otp")
+def verify_login_otp(req: OTPVerifyRequest):
+    db = get_db_connection()
+    try:
+        with db.cursor() as cursor:
+            cursor.execute(
+                "SELECT otp_code, otp_expires_at, is_verified FROM users WHERE email = %s",
+                (req.email,),
+            )
+            user = cursor.fetchone()
+            if not user or not user["is_verified"]:
+                raise HTTPException(status_code=400, detail="User account is not verified.")
+            if user["otp_code"] != req.otp_code or otp_is_expired(user["otp_expires_at"]):
+                raise HTTPException(status_code=400, detail="Invalid or expired login verification code.")
+            cursor.execute(
+                "UPDATE users SET otp_code = NULL, otp_expires_at = NULL WHERE email = %s",
+                (req.email,),
+            )
+        db.commit()
+        return {
+            "access_token": create_access_token({"sub": req.email}),
+            "token_type": "bearer",
+            "message": "Two-step verification completed successfully.",
+        }
     finally:
         db.close()
 

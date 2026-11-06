@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     is_verified BOOLEAN DEFAULT FALSE,
     otp_code VARCHAR(6) NULL,
     otp_expires_at DATETIME NULL,
+    two_factor_enabled BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

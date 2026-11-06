@@ -103,8 +103,17 @@ async function handleLogin(event) {
                 password: document.getElementById("login-password").value
             })
         });
-        localStorage.setItem("token", data.access_token);
-        window.location.href = "/";
+        if (data.requires_2fa) {
+            window.pendingLoginEmail = data.email;
+            document.getElementById("login-pane")?.classList.add("d-none");
+            document.getElementById("authTabs")?.classList.add("d-none");
+            document.getElementById("otp-container")?.classList.remove("d-none");
+            const title = document.querySelector("#otp-container h5");
+            if (title) title.textContent = "Complete two-step verification";
+            showMessage(data.message);
+            return;
+        }
+        throw new Error("Login did not start two-step verification.");
     } catch (error) {
         showMessage(error.message, true);
     }
@@ -134,10 +143,13 @@ async function handleRegister(event) {
 async function handleOtp(event) {
     event.preventDefault();
     try {
-        const data = await apiRequest("/auth/verify-signup-otp", {
+        const endpoint = window.pendingLoginEmail
+            ? "/auth/verify-login-otp"
+            : "/auth/verify-signup-otp";
+        const data = await apiRequest(endpoint, {
             method: "POST",
             body: JSON.stringify({
-                email: window.pendingEmail,
+                email: window.pendingLoginEmail || window.pendingEmail,
                 otp_code: document.getElementById("otp-code").value
             })
         });
