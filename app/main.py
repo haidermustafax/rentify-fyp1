@@ -7,7 +7,6 @@ from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from app.email_utils import generate_otp, send_otp_email
-from app.services.recommender import get_ai_recommendations
 
 from app.dependencies import (
     get_db,
@@ -457,14 +456,6 @@ def delete_listing(listing_id: int, current_user: dict = Depends(get_current_use
         return {"message": "Listing removed from the active marketplace."}
     finally:
         cursor.close()
-
-# -------------------------------------------------------------------
-# RECOMMENDATIONS
-# -------------------------------------------------------------------
-
-@app.get("/api/recommendations")
-def get_recommendations(current_user: dict = Depends(get_current_user)):
-    return get_ai_recommendations(current_user["id"], top_n=3)
 
 # -------------------------------------------------------------------
 # BOOKINGS & WALLET (BUG FIXES APPLIED)
